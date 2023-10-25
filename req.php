@@ -27,7 +27,11 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 
 if ($response === false) {
-    echo 'Curl error: ' . curl_error($ch);
+    $error_message = 'Curl error: ' . curl_error($ch);
+    echo $error_message;
+    
+    // Log the error message to a file
+    file_put_contents('error.log', $error_message, FILE_APPEND);
 } else {
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     echo 'Response HTTP Code: ' . $httpCode . "\n";
