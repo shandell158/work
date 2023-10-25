@@ -3,8 +3,8 @@ $url = 'https://www.api.ringo.ng/api/agent/p2';
 
 $headers = array(
     'Content-Type: application/json',
-    'email: otpforall7@gmail.com',  
-    'password: book12345'  
+    'email: otpforall7@gmail.com',
+    'password: book12345'
 );
 
 $data = array(
@@ -29,6 +29,8 @@ $response = curl_exec($ch);
 if ($response === false) {
     echo 'Curl error: ' . curl_error($ch);
 } else {
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    echo 'Response HTTP Code: ' . $httpCode . "\n";
     echo 'Response: ' . $response;
 }
 
