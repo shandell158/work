@@ -1,42 +1,42 @@
 <?php
-$url = 'https://www.api.ringo.ng/api/agent/p2';
 
-$headers = array(
-    'Content-Type: application/json',
-    'email: otpforall7@gmail.com',
-    'password: book12345'
-);
+// Define the API endpoint URL
+$url = "https://www.api.ringo.ng/api/agent/p2";
 
+// Define the request data
 $data = array(
-    'serviceCode' => 'BDP',
-    'type' => 'BET',
-    'biller' => 'BangBet',
-    'customerId' => '08136323311',
-    'request_id' => '66yhh98nn8udu87888669866',
-    'amount' => 1000
+    "serviceCode" => "BDP",
+    "type" => "BET",
+    "biller" => "BangBet",
+    "customerId" => "08136323311",
+    "request_id" => "66yhh69866",
+    "amount" => 1000
 );
 
-$data_string = json_encode($data);
+// Create an associative array of HTTP headers
+$headers = array(
+    "Content-Type: application/json",
+    "email: otpforall7@gmail.com",
+    "password: ROMANCATHOLIC+"
+);
 
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// Create a stream context with the HTTP method and headers
+$context = stream_context_create(array(
+    'http' => array(
+        'method' => 'POST',
+        'header' => implode("\r\n", $headers),
+        'content' => json_encode($data)
+    )
+));
 
-$response = curl_exec($ch);
+// Send the POST request
+$response = file_get_contents($url, false, $context);
 
+// Check for errors and handle the response
 if ($response === false) {
-    $error_message = 'Curl error: ' . curl_error($ch);
-    echo $error_message;
-    
-    // Log the error message to a file
-    file_put_contents('error.log', $error_message, FILE_APPEND);
+    // Error handling
+    echo "Failed to make the API request.";
 } else {
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    echo 'Response HTTP Code: ' . $httpCode . "\n";
-    echo 'Response: ' . $response;
+    // Handle the API response
+    echo $response;
 }
-
-curl_close($ch);
-?>
